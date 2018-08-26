@@ -30,7 +30,8 @@ vec4 HSLtoRGB(in vec4 HSLA){
 vec4 effect( vec4 color, sampler2D texture, vec2 texture_coords, vec2 screen_coords ){
 
     vec4 pixel;
-    vec2 coords = vec2( ( screen_coords.x/dimensions.x - 0.5)*scale.x*2 - offset.x, ( screen_coords.y/dimensions.x - 0.5*(dimensions.y/dimensions.x) )*scale.y*2*-1 + offset.y * (dimensions.y/dimensions.x));
+    vec2 coords = vec2( ( screen_coords.x/dimensions.x - 0.5)*scale.x*2 - offset.x,
+    ( screen_coords.y/dimensions.x - 0.5*(dimensions.y/dimensions.x) )*scale.y*2*-1 + offset.y * (dimensions.y/dimensions.x) );
 
     vec2 z;
     vec2 c;

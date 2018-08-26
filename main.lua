@@ -50,7 +50,7 @@ function love.update(dt)
 
     keyIsDown()
 
-    if runtime%10 + dt > 10 then
+    if runtime%1 + dt > 1 then
         load_shaders()
     end
 end
