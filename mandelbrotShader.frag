@@ -73,7 +73,7 @@ vec4 effect( vec4 color, sampler2D texture, vec2 texture_coords, vec2 screen_coo
         }
     }
 
-    pixel = HSLtoRGB(vec4(mod(totalIterations/(2.7182818284590452353602874713527*10) + 0.5 + rainbowssss, 1), 1, 0.5, 1)  );
+    pixel = HSLtoRGB(vec4(mod(totalIterations/(2.7182818284590452353602874713527*10) + 0.3 + rainbowssss, 1), 1, 0.5, 1)  );
     if (totalIterations == 0){
         pixel = vec4(0, 0, 0, 1);
     }
