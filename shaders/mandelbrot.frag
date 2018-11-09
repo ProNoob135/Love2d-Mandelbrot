@@ -6,7 +6,6 @@ uniform vec2 mousecoords;
 uniform int iterations;
 uniform int type;
 uniform int petals;
-uniform sampler2D iterationsMap;
 uniform float rainbowssss;
 
 vec4 HSLtoRGB(in vec4 HSLA){
@@ -30,11 +29,11 @@ vec4 HSLtoRGB(in vec4 HSLA){
 vec4 effect( vec4 color, sampler2D texture, vec2 texture_coords, vec2 screen_coords ){
 
     vec4 pixel;
-    vec2 coords = vec2( ( screen_coords.x/dimensions.x - 0.5)*scale.x*2 - offset.x,
+    lowp vec2 coords = vec2( ( screen_coords.x/dimensions.x - 0.5)*scale.x*2 - offset.x,
     ( screen_coords.y/dimensions.x - 0.5*(dimensions.y/dimensions.x) )*scale.y*2*-1 + offset.y * (dimensions.y/dimensions.x) );
 
-    vec2 z;
-    vec2 c;
+    lowp vec2 z;
+    lowp vec2 c;
     int totalIterations;
 
     if(type ==  0){
@@ -43,13 +42,6 @@ vec4 effect( vec4 color, sampler2D texture, vec2 texture_coords, vec2 screen_coo
     else{
         z = coords;
         c = mousecoords;
-    }
-
-    int realIterations;
-
-    vec4 iterate = Texel(iterationsMap, screen_coords/dimensions);
-    if(iterate.x > 0.0){
-        discard;
     }
 
     for(int i = 1; i < iterations; i++){
@@ -79,5 +71,5 @@ vec4 effect( vec4 color, sampler2D texture, vec2 texture_coords, vec2 screen_coo
         pixel = vec4(0, 0, 0, 1);
     }
 
-    return vec4(pixel);
+    return pixel;
 }

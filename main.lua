@@ -15,12 +15,11 @@ function love.load()
     mouse = {}
     mouse.x, mouse.y = love.mouse.getX(), love.mouse.getY()
     value = 1
-    iterations = 10000
+    iterations = 1000
     fractaltype = 0
     petals = 0
     rainbowssss = 0
     storeFrame = love.graphics.newCanvas(dimensions.x, dimensions.y)
-    iterationsMap = love.graphics.newCanvas(dimensions.x, dimensions.y)
 
     load_shaders()
 
@@ -31,8 +30,11 @@ end
 function love.update(dt)
     deltatime = dt
     runtime = runtime and runtime + deltatime or 0
-    dimensions.x, dimensions.y = love.graphics.getDimensions()
     mouse.x, mouse.y = love.mouse.getX(), love.mouse.getY()
+    if dimensions.x ~= love.graphics.getWidth() or dimensions.y ~= love.graphics.getHeight() then
+        dimensions.x, dimensions.y = love.graphics.getDimensions()
+        storeFrame = love.graphics.newCanvas(dimensions.x, dimensions.y)
+    end
     if  runtime%0.05+dt > 0.05 then
         iterations = iterations > 0 and iterations + animate or 1
         --love.graphics.captureScreenshot("Mandlebrot_" .. runtime .. ".png")
@@ -44,9 +46,6 @@ function love.update(dt)
     shader.mandelbrot:send("iterations", iterations)
     shader.mandelbrot:send("type", fractaltype)
     shader.mandelbrot:send("petals", petals)
-    shader.mandelbrot:send("iterationsMap", iterationsMap)
-
-    shader.iterationCheck:send("dimensions", {dimensions.x, dimensions.y})
 
     keyIsDown()
 
@@ -56,19 +55,9 @@ function love.update(dt)
 end
 
 function love.draw()
-    if storeFrame:getWidth() ~= dimensions.x or storeFrame:getHeight() ~= dimensions.y then
-        storeFrame = love.graphics.newCanvas(dimensions.x, dimensions.y)
-        iterationsMap = love.graphics.newCanvas(dimensions.x, dimensions.y)
-    end
     storeFrame:renderTo(function()
         love.graphics.setShader(shader.mandelbrot)
         love.graphics.rectangle("fill", 0, 0, dimensions.x, dimensions.y)
-        love.graphics.setShader()
-    end)
-
-    iterationsMap:renderTo(function()
-        love.graphics.setShader(shader.iterationCheck)
-        love.graphics.draw(storeFrame, 0, 0)
         love.graphics.setShader()
     end)
 

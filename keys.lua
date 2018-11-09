@@ -5,8 +5,9 @@ newscale = {}
 fullscreen = false
 animate = 0.0
 fractaltype = 0
-highresMultiplier = 8
-iterationsMultiplier = 1
+highresDimensions = {x = 4480, y = 1080}
+highresMultiplier = 2
+iterationsMultiplier = 5
 highresOutput = love.graphics.newCanvas(dimensions.x * highresMultiplier, dimensions.y * highresMultiplier, {msaa = 16})
 dimensions.x, dimensions.y = love.graphics.getDimensions()
 
@@ -23,12 +24,12 @@ function love.keypressed(key, u)
         love.window.setFullscreen(fullscreen)
     elseif key == "f2" then
         if  love.keyboard.isDown("lalt") then
-            highresOutput = love.graphics.newCanvas(dimensions.x * highresMultiplier, dimensions.y * highresMultiplier, {msaa = 4})
+            highresOutput = love.graphics.newCanvas(highresDimensions.x * highresMultiplier, highresDimensions.y * highresMultiplier, {msaa = 4})
             highresOutput:renderTo(function()
                 love.graphics.setShader(shader.mandelbrot)
-                shader.mandelbrot:send("dimensions", {dimensions.x * highresMultiplier, dimensions.y * highresMultiplier})
+                shader.mandelbrot:send("dimensions", {highresDimensions.x * highresMultiplier, highresDimensions.y * highresMultiplier})
                 shader.mandelbrot:send("iterations", iterations * iterationsMultiplier)
-                love.graphics.rectangle("fill", 0, 0, dimensions.x * highresMultiplier, dimensions.y * highresMultiplier)
+                love.graphics.rectangle("fill", 0, 0, highresDimensions.x * highresMultiplier, highresDimensions.y * highresMultiplier)
                 love.graphics.setShader()
             end)
             highresOutput:newImageData():encode("png", "HighresMandlebrot" .. os.time() .. ".png")
